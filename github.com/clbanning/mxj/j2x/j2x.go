@@ -7,7 +7,7 @@
 package j2x
 
 import (
-	. "github.com/gogf/gf/third/github.com/clbanning/mxj"
+	. "github.com/go-xe2/third/github.com/clbanning/mxj"
 	"io"
 )
 
