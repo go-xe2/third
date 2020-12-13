@@ -10,7 +10,7 @@ import (
 	"unsafe"
 )
 
-const cpuSetSize = _CPU_SETSIZE / _NCPUBITS
+const cpuSetSize int = _CPU_SETSIZE / _NCPUBITS
 
 // CPUSet represents a CPU affinity mask.
 type CPUSet [cpuSetSize]cpuMask

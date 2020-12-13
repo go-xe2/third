@@ -16,7 +16,7 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/gogf/gf/third/golang.org/x/sys/unix"
+	"github.com/go-xe2/third/golang.org/x/sys/unix"
 )
 
 // Watcher watches a set of files, delivering events to a channel.
@@ -171,12 +171,12 @@ type watch struct {
 // received events into Event objects and sends them via the Events channel
 func (w *Watcher) readEvents() {
 	var (
-		buf   [unix.SizeofInotifyEvent * 4096]byte // Buffer for a maximum of 4096 raw events
-		n     int                                  // Number of bytes read with read()
-		errno error                                // Syscall errno
-		ok    bool                                 // For poller.wait
+		buf   = make([]byte, unix.SizeofInotifyEvent*4096) // Buffer for a maximum of 4096 raw events
+		n     int                                          // Number of bytes read with read()
+		errno error                                        // Syscall errno
+		ok    bool                                         // For poller.wait
 	)
-
+	//var buf = make([]byte, unix.SizeofInotifyEvent * 4096)
 	defer close(w.doneResp)
 	defer close(w.Errors)
 	defer close(w.Events)
@@ -272,9 +272,11 @@ func (w *Watcher) readEvents() {
 
 			if nameLen > 0 {
 				// Point "bytes" at the first byte of the filename
+
 				bytes := (*[unix.PathMax]byte)(unsafe.Pointer(&buf[offset+unix.SizeofInotifyEvent]))
+				//bytes := (*[]byte)(unsafe.Pointer(&buf[offset+unix.SizeofInotifyEvent]))
 				// The filename is padded with NULL bytes. TrimRight() gets rid of those.
-				name += "/" + strings.TrimRight(string(bytes[0:nameLen]), "\000")
+				name += "/" + strings.TrimRight(string((*bytes)[0:nameLen]), "\000")
 			}
 
 			event := newEvent(name, mask)
