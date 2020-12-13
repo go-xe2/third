@@ -5,12 +5,11 @@
 package fsnotify
 
 import (
+	"github.com/go-xe2/third/golang.org/x/sys/unix"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
-
-	"github.com/gogf/gf/third/golang.org/x/sys/unix"
 )
 
 // testExchangedataForWatcher tests the watcher with the exchangedata operation on macOS.
